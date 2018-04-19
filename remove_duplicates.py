@@ -7,4 +7,4 @@ def remove_duplicates(n):
     return new_list
 
 
-print (remove_duplicates([1, 1, 2, 2]))
+print (remove_duplicates([1, 1, 2, 2, 3, 3]))
