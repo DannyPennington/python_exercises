@@ -14,6 +14,6 @@ def median(num):
     return total
 
 
-print (median([1, 34, 1, 6, 8]))
+print (median([1, 34, 1, 6, 8, 0]))
 
 
