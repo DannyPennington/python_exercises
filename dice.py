@@ -16,17 +16,15 @@ else:
 
 print("")
 
-dice_turn = str(input("Would you like to throw again? (Y/N): "))
-
-while dice_turn == "Y" or dice_turn == "y":
-    dice_two = dice()
-    print (dice_two)
-    print ("")
+while 1:
     dice_turn = str(input("Would you like to throw again? (Y/N): "))
-    if dice_turn == "N" or dice_turn == "n":
+    if dice_turn == "Y" or dice_turn == "y":
+        dice_two = dice()
+        print (dice_two)
+        print ("")
+    elif dice_turn == "N" or dice_turn == "n":
         sys.exit()
-else:
-    print("")
-    print("You didn't enter 'Y' or 'N'!")
-    print("")
-    dice_turn = str(input("Would you like to throw again? (Y/N): "))
+    else:
+        print("")
+        print("You didn't enter 'Y' or 'N'!")
+        print("")
