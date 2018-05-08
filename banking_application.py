@@ -1,7 +1,7 @@
 import pymysql
 import sys
 
-db = pymysql.connect("localhost", "root", "***", "Banking")
+db = pymysql.connect("localhost", "root", "city2939", "Banking")
 c = db.cursor()
 
 while 1:
