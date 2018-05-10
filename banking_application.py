@@ -4,7 +4,6 @@ import sys
 db = pymysql.connect("localhost", "root", "city2939", "Banking")
 c = db.cursor()
 
-
 def show_accounts(query):
     c.execute(query)
     rows = c.fetchall()
@@ -39,6 +38,32 @@ def account_open():
             1
             print ("")
 
+def balance(account_number):
+    query1= f"select sum(amount) from deposits where accountnumber='{account_number}'"
+    query2= f"select sum(amount) from withdrawals where accountnumber='{account_number}'"
+    c.execute(query1)
+    deposit = c.fetchone()
+    c.execute(query2)
+    withdrawal = c.fetchone()
+    balance = deposit[0]-withdrawal[0]
+    return balance
+
+def balancecheck(account_number):
+    query1 = f"select amount from deposits where accountnumber='{account_number}'"
+    query2 = f"select amount from withdrawals where accountnumber='{account_number}'"
+    ab = c.execute(query1)
+    abc = c.execute(query2)
+    if ab == 0 or abc == 0:
+        return "Unknown"
+
+def customername(account_number):
+    query = f"select CustomerName from accounts where accountnumber='{account_number}'"
+    abc = c.execute(query)
+    row = c.fetchone()
+    if abc == 0:
+        return "Unknown"
+    else:
+        return row[0]
 
 while 1:
     print("")
@@ -52,11 +77,57 @@ while 1:
 
     if customer_choice == 2:
         print ("")
-        deposit = float(input("How much money would you like to deposit?: "))
+        account_number = int(input("Please enter your Account Number: "))
+        print("")
+        if customername(account_number)!="Unknown":
+            print ("Welcome to the Bank of Jay,",customername(account_number))
+            if balancecheck(account_number) == "Unknown":
+                query = f"insert into deposits values('{account_number}','0','09-05-2018')"
+                query1 = f"insert into withdrawals values('{account_number}','0','09-05-2018')"
+                c.execute(query)
+                c.execute(query1)
+                db.commit()
+            else:
+                print("The current balance of your Account is:", balance(account_number))
+                print("")
+                deposit = int(input("How much money would you like to deposit?: "))
+                query_two = f"insert into deposits values('{account_number}','{deposit}', '09-05-2018')"
+                c.execute(query_two)
+                db.commit()
+                print ("The balance of your Account is now:",balance(account_number))
+                print("")
+                input("Press Enter to go back to the main menu")
+        else:
+            print("That Account Number doesn't exist. Please try again.")
 
     if customer_choice == 3:
         print("")
-        withdraw = float(input("How much money would you like to withdraw?: "))
+        account_number = int(input("Please enter your Account Number: "))
+        print("")
+        if customername(account_number) != "Unknown":
+            print("Welcome to the Bank of Jay,", customername(account_number))
+            if balancecheck(account_number) == "Unknown":
+                query = f"insert into deposits values('{account_number}','0','09-05-2018')"
+                query1 = f"insert into withdrawals values('{account_number}','0','09-05-2018')"
+                c.execute(query)
+                c.execute(query1)
+                db.commit()
+            else:
+                print("The current balance of your Account is:", balance(account_number))
+                print("")
+                withdraw = int(input("How much money would you like to withdraw?: "))
+                if balance(account_number)- withdraw <0:
+                    print("")
+                    print ("You do not have enough money in your Account to do this!")
+                    continue
+                query_three = f"insert into withdrawals values('{account_number}','{withdraw}', '09-05-2018')"
+                c.execute(query_three)
+                db.commit()
+                print("The balance of your Account is now:", balance(account_number))
+                print("")
+                input("Press Enter to go back to the main menu")
+        else:
+            print("That Account Number doesn't exist. Please try again.")
 
     if customer_choice == 4:
         print("")
@@ -84,7 +155,36 @@ while 1:
             show_accounts("select * from accounts where Gender='F'")
             print("")
             input("Press Enter to go back to the main menu")
-        #if report == 6:
+        if report == 6:
+            print("")
+            account_number = int(input("Please enter your Account Number: "))
+            print("")
+            if balancecheck(account_number) == "Unknown":
+                query = f"insert into deposits values('{account_number}','0','09-05-2018')"
+                query1 = f"insert into withdrawals values('{account_number}','0','09-05-2018')"
+                c.execute(query)
+                c.execute(query1)
+                db.commit()
+            if customername(account_number) != "Unknown":
+                query1 = f"select * from deposits where accountnumber='{account_number}'"
+                c.execute(query1)
+                rows = c.fetchall()
+                print("Deposits:")
+                for row in rows:
+                    print("Amount:",row[1],",","Date:",row[2])
+                print("")
+                query2 = f"select * from withdrawals where accountnumber='{account_number}'"
+                c.execute(query2)
+                rows = c.fetchall()
+                print("Withdrawals:")
+                for row in rows:
+                    print("Amount:",row[1],",","Date:",row[2])
+                print("")
+                print("Closing Balance:", balance(account_number))
+                print("")
+                input("Press enter to go back to the main menu")
+            else:
+                print("That Account Number doesn't exist. Please try again.")
 
         if report == 7:
             1
