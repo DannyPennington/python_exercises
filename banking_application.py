@@ -8,27 +8,38 @@ def show_accounts(query):
     c.execute(query)
     rows = c.fetchall()
     for row in rows:
-        print (row[0],"-",row[1],"-",row[2],"-",row[3],"-",row[4])
+        print (row[0],"-",row[1],"-",row[2])
 
 def account_open():
     CustomerName = str(input("Enter your Name: "))
     AccountType = str(input("Enter the Account Type you wish to open (C/S): "))
     Gender = str(input("Enter your Gender (M/F): "))
     CustomerAddress = str(input("Enter your Address (Postcode, City): "))
-    query = f"insert into accounts values(NULL,'{CustomerName}','{AccountType}','{Gender}','{CustomerAddress}')"
+    query = f"select concat('{AccountType}','{Gender}',lpad(COALESCE(max(substr(AccountNumber,3,3))+1,'001'),3,'0')) as new from accounts where AccountNumber like ('{AccountType}%')"
     c.execute(query)
+    account_number = c.fetchone()
+    query_one = f"insert into accounts values('{account_number[0]}','{CustomerName}','{CustomerAddress}')"
+    c.execute(query_one)
     db.commit()
+    print("")
+    print("Your Account Number is",account_number[0],"- Please keep this safe!")
     print("")
     while 1:
         repeat_entry = str(input("Would you like to open another account? (Y/N): "))
+        print("")
         if repeat_entry == "Y" or repeat_entry == "y":
             CustomerName = str(input("Enter your Name: "))
             AccountType = str(input("Enter the Account Type you wish to open (C/S): "))
             Gender = str(input("Enter your Gender (M/F): "))
             CustomerAddress = str(input("Enter your Address (Postcode, City): "))
-            query = f"insert into accounts values(NULL,'{CustomerName}','{AccountType}','{Gender}','{CustomerAddress}')"
+            query = f"select concat('{AccountType}','{Gender}',lpad(COALESCE(max(substr(AccountNumber,3,3))+1,'001'),3,'0')) as new from accounts where AccountNumber like ('{AccountType}%')"
             c.execute(query)
+            account_number = c.fetchone()
+            query_one = f"insert into accounts values('{account_number[0]}','{CustomerName}','{CustomerAddress}')"
+            c.execute(query_one)
             db.commit()
+            print("")
+            print("Your Account Number is", account_number[0], "- Please keep this safe!")
             print("")
         elif repeat_entry == "N" or repeat_entry == "n":
             break
@@ -77,7 +88,7 @@ while 1:
 
     if customer_choice == 2:
         print ("")
-        account_number = int(input("Please enter your Account Number: "))
+        account_number = str(input("Please enter your Account Number: "))
         print("")
         if customername(account_number)!="Unknown":
             print ("Welcome to the Bank of Jay,",customername(account_number))
@@ -102,7 +113,7 @@ while 1:
 
     if customer_choice == 3:
         print("")
-        account_number = int(input("Please enter your Account Number: "))
+        account_number = str(input("Please enter your Account Number: "))
         print("")
         if customername(account_number) != "Unknown":
             print("Welcome to the Bank of Jay,", customername(account_number))
@@ -136,32 +147,37 @@ while 1:
         print ("")
         report = int(input("Which report would you like to see?: "))
         if report == 1:
+            print("")
             show_accounts("select * from accounts")
             print("")
             input("Press Enter to go back to the main menu")
         if report == 2:
-            show_accounts("select * from accounts where AccountType='C'")
+            print("")
+            show_accounts("select * from accounts where AccountNumber like ('C%')")
             print("")
             input("Press Enter to go back to the main menu")
         if report == 3:
-            show_accounts("select * from accounts where AccountType='S'")
+            print("")
+            show_accounts("select * from accounts where AccountNumber like ('S%')")
             print("")
             input("Press Enter to go back to the main menu")
         if report == 4:
-            show_accounts("select * from accounts where Gender='M'")
+            print("")
+            show_accounts("select * from accounts where AccountNumber like ('_M%')")
             print("")
             input("Press Enter to go back to the main menu")
         if report == 5:
-            show_accounts("select * from accounts where Gender='F'")
+            print("")
+            show_accounts("select * from accounts where AccountNumber like ('_F%')")
             print("")
             input("Press Enter to go back to the main menu")
         if report == 6:
             print("")
-            account_number = int(input("Please enter your Account Number: "))
+            account_number = str(input("Please enter your Account Number: "))
             print("")
             if balancecheck(account_number) == "Unknown":
-                query = f"insert into deposits values('{account_number}','0','09-05-2018')"
-                query1 = f"insert into withdrawals values('{account_number}','0','09-05-2018')"
+                query = f"insert into deposits values('{account_number}','0','22-05-2018')"
+                query1 = f"insert into withdrawals values('{account_number}','0','22-05-2018')"
                 c.execute(query)
                 c.execute(query1)
                 db.commit()
@@ -171,14 +187,14 @@ while 1:
                 rows = c.fetchall()
                 print("Deposits:")
                 for row in rows:
-                    print("Amount:",row[1],",","Date:",row[2])
+                    print("Amount:",row[1],"Date:",row[2])
                 print("")
                 query2 = f"select * from withdrawals where accountnumber='{account_number}'"
                 c.execute(query2)
                 rows = c.fetchall()
                 print("Withdrawals:")
                 for row in rows:
-                    print("Amount:",row[1],",","Date:",row[2])
+                    print("Amount:",row[1],"Date:",row[2])
                 print("")
                 print("Closing Balance:", balance(account_number))
                 print("")
