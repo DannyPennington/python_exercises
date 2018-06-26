@@ -12,7 +12,7 @@ def show_accounts(query):
 
 def account_open():
     CustomerName = str(input("Enter your Name: "))
-    AccountType = str(input("Enter the Account Type you wish to open (C/S): "))
+    AccountType = str(input("Do you want to open a Current(C) or Savings(S) Account?: "))
     Gender = str(input("Enter your Gender (M/F): "))
     CustomerAddress = str(input("Enter your Address (Postcode, City): "))
     query = f"select concat('{AccountType}','{Gender}',lpad(COALESCE(max(substr(AccountNumber,3,3))+1,'001'),3,'0')) as new from accounts where AccountNumber like ('{AccountType}%')"
@@ -29,7 +29,7 @@ def account_open():
         print("")
         if repeat_entry == "Y" or repeat_entry == "y":
             CustomerName = str(input("Enter your Name: "))
-            AccountType = str(input("Enter the Account Type you wish to open (C/S): "))
+            AccountType = str(input("Do you want to open a Current(C) or Savings(S) Account?: "))
             Gender = str(input("Enter your Gender (M/F): "))
             CustomerAddress = str(input("Enter your Address (Postcode, City): "))
             query = f"select concat('{AccountType}','{Gender}',lpad(COALESCE(max(substr(AccountNumber,3,3))+1,'001'),3,'0')) as new from accounts where AccountNumber like ('{AccountType}%')"
@@ -89,12 +89,13 @@ while 1:
     if customer_choice == 2:
         print ("")
         account_number = str(input("Please enter your Account Number: "))
+
         print("")
         if customername(account_number)!="Unknown":
             print ("Welcome to the Bank of Jay,",customername(account_number))
-            if balancecheck(account_number) == "Unknown":
-                query = f"insert into deposits values('{account_number}','0','09-05-2018')"
-                query1 = f"insert into withdrawals values('{account_number}','0','09-05-2018')"
+            while balancecheck(account_number) == "Unknown":
+                query = f"insert into deposits values('{account_number}','0',CURDATE())"
+                query1 = f"insert into withdrawals values('{account_number}','0',CURDATE())"
                 c.execute(query)
                 c.execute(query1)
                 db.commit()
@@ -102,8 +103,10 @@ while 1:
                 print("The current balance of your Account is:", balance(account_number))
                 print("")
                 deposit = int(input("How much money would you like to deposit?: "))
-                query_two = f"insert into deposits values('{account_number}','{deposit}', '09-05-2018')"
+                query_two = f"insert into deposits values('{account_number}','{deposit}', CURDATE())"
                 c.execute(query_two)
+                query_three = f"delete from deposits where amount=0"
+                c.execute(query_three)
                 db.commit()
                 print ("The balance of your Account is now:",balance(account_number))
                 print("")
@@ -117,9 +120,9 @@ while 1:
         print("")
         if customername(account_number) != "Unknown":
             print("Welcome to the Bank of Jay,", customername(account_number))
-            if balancecheck(account_number) == "Unknown":
-                query = f"insert into deposits values('{account_number}','0','09-05-2018')"
-                query1 = f"insert into withdrawals values('{account_number}','0','09-05-2018')"
+            while balancecheck(account_number) == "Unknown":
+                query = f"insert into deposits values('{account_number}','0',CURDATE())"
+                query1 = f"insert into withdrawals values('{account_number}','0',CURDATE())"
                 c.execute(query)
                 c.execute(query1)
                 db.commit()
@@ -131,7 +134,9 @@ while 1:
                     print("")
                     print ("You do not have enough money in your Account to do this!")
                     continue
-                query_three = f"insert into withdrawals values('{account_number}','{withdraw}', '09-05-2018')"
+                query_two = f"insert into withdrawals values('{account_number}','{withdraw}', CURDATE())"
+                c.execute(query_two)
+                query_three = f"delete from withdrawals where amount=0"
                 c.execute(query_three)
                 db.commit()
                 print("The balance of your Account is now:", balance(account_number))
@@ -176,8 +181,8 @@ while 1:
             account_number = str(input("Please enter your Account Number: "))
             print("")
             if balancecheck(account_number) == "Unknown":
-                query = f"insert into deposits values('{account_number}','0','22-05-2018')"
-                query1 = f"insert into withdrawals values('{account_number}','0','22-05-2018')"
+                query = f"insert into deposits values('{account_number}','0',CURDATE())"
+                query1 = f"insert into withdrawals values('{account_number}','0',CURDATE())"
                 c.execute(query)
                 c.execute(query1)
                 db.commit()
