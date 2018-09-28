@@ -1,7 +1,7 @@
 import pymysql
 import sys
 
-db = pymysql.connect("localhost", "root", "city2939", "Banking")
+db = pymysql.connect("localhost", "root", "password", "banking")
 c = db.cursor()
 
 def show_accounts(query):
