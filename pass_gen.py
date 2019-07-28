@@ -22,7 +22,7 @@ elif strength == "m":
 	word = random.choice(word_list) 
 	num = []
 	for i in range(3):
-		n = random.randint(1,10)
+		n = random.randint(1,9)
 		num.append(n)
 	password = word + ''.join(str(i) for i in num)
 
