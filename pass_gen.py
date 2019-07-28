@@ -1,3 +1,6 @@
+import nltk
+nltk.download('words')
+
 import random
 import string
 from nltk.corpus import words
