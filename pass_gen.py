@@ -13,6 +13,7 @@ while 1:
 	strength = input("Do you want your password Weak (w), Mid (m) or Strong (s)?: ")
 	strength.lower()
 	if strength not in ["w", "m", "s"]:
+		print("")
 		print("Please enter valid selection")
 		print(" ")
 	else:
