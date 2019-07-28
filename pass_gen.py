@@ -1,8 +1,8 @@
 import random
 import string
-from random_word import RandomWords
+from nltk.corpus import words
 
-r = RandomWords()
+word_list = words.words()
 string.ascii_letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 while 1:
@@ -16,10 +16,10 @@ while 1:
 		break
 
 if strength == "w":
-	password = r.get_random_word(maxLength=6)
+	password = random.choice(word_list)
 
 elif strength == "m":
-	word = r.get_random_word(maxLength=6)
+	word = random.choice(word_list) 
 	num = []
 	for i in range(3):
 		n = random.randint(1,10)
@@ -27,7 +27,7 @@ elif strength == "m":
 	password = word + ''.join(str(i) for i in num)
 
 elif strength == "s":
-	word = r.get_random_word()
+	word = random.choice(word_list)
 	letters = ""
 	num = []
 	for i in range(10):
