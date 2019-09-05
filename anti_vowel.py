@@ -10,3 +10,4 @@ def anti_vowel(text):
     return t
 
 print(anti_vowel("hello"))
+print(anti_vowel("goodbye"))
