@@ -23,7 +23,11 @@ while 1:
     elif op == "*":
         multiply(num1, num2)
     elif op == "/":
-        divide(num1, num2)
+        if num2!=0:
+            divide(num1, num2)
+        else:
+            print("can't divide by 0!")
+            continue
     else:
         print("Enter valid Operator! (+, -, *, /)")
         continue

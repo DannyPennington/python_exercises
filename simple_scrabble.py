@@ -6,12 +6,16 @@ score = {"a": 1, "c": 3, "b": 3, "e": 1, "d": 2, "g": 2,
 
 
 def scrabble_score(word):
-    low_word = word.lower()
+    lowercase_word = word.lower()
     total = 0
 
-    for i in low_word:
+    for i in lowercase_word:
         total += score[i]
     return total
 
 
-print (scrabble_score("Hello"))
+print ("")
+user_word = input("Enter a word, and press enter to see the word's scrabble score: ")
+print("")
+print ("This word would score:", (scrabble_score(user_word)))
+print("")
