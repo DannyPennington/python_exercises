@@ -5,5 +5,3 @@ def digit_sum(x):
         x = x // 10
 
     return total
-
-print(digit_sum(1234))
