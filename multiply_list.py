@@ -3,5 +3,3 @@ def product(n):
   for i in n:
     total *= i
   return total
-
-print (product([4,5,5]))
