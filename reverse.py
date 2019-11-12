@@ -5,5 +5,3 @@ def reverse(text):
         word += text[l]
         l -= 1
     return word
-
-print(reverse("Hello"))
