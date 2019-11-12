@@ -8,6 +8,3 @@ def anti_vowel(text):
                 c=c
         t=t+c
     return t
-
-print(anti_vowel("hello"))
-print(anti_vowel("goodbye"))
