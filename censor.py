@@ -9,6 +9,3 @@ def censor(text, word):
             new.append(i)
         final = " ".join(new)
     return final
-
-
-print (censor("We do not say shit", "shit"))
