@@ -4,5 +4,3 @@ def count(sequence, item):
     if n == item:
       sum += 1
   return sum
-
-print (count([1,2,1,1], 1))
