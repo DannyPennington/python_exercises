@@ -1,14 +1,14 @@
 def add (x,y):
-    print (x + y)
+    return(x + y)
 
 def subtract (x,y):
-    print (x - y)
+    return(x - y)
 
 def multiply (x,y):
-    print ( x * y)
+    return( x * y)
 
 def divide (x,y):
-    print (x / y)
+    return(x / y)
 
 loop = 1
 while 1:
@@ -17,14 +17,14 @@ while 1:
     op = input("enter operator (+, -, *, /): ")
 
     if op == "+":
-        add(num1, num2)
+        print(add(num1, num2))
     elif op == "-":
-        subtract(num1, num2)
+        print(subtract(num1, num2))
     elif op == "*":
-        multiply(num1, num2)
+        print(multiply(num1, num2))
     elif op == "/":
         if num2!=0:
-            divide(num1, num2)
+            print(divide(num1, num2))
         else:
             print("can't divide by 0!")
             continue
