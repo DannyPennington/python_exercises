@@ -5,6 +5,3 @@ def remove_duplicates(n):
         if i not in new_list:
             new_list.append(i)
     return new_list
-
-
-print (remove_duplicates([1, 1, 2, 2, 3, 3]))
