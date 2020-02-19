@@ -1,5 +1,5 @@
 import pytest
-import count
+from applications import count
 
 def test_count_zero():
     assert count.count([0,1,5,7,0,8],2) == 0
