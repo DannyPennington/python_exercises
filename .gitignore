@@ -1,5 +1,5 @@
-venv/
-__pychache__/
-.pytest_chache/
-.git/
-.vscode/
+venv
+__pychache__
+.pytest_chache
+.git
+.vscode
